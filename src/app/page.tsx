@@ -1,103 +1,177 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import Layout from "@/components/Layout";
+import Navbar from "@/components/Navbar";
+import HeroSection from '@/sections/HeroSection';
+import AboutSection from '@/sections/AboutSection';
+import ServicesSection from '@/sections/ServicesSection';
+import TestimonialsSection from '@/sections/TestimonialsSection';
+import GallerySection from '@/sections/GallerySection';
+import BusinessOverviewSection from '@/sections/BusinessOverviewSection';
+import FAQSection from '@/sections/FAQSection';
+import ContactSection from '@/sections/ContactSection';
+import FooterSection from '@/sections/FooterSection';
+
+interface LandingPageData {
+  id: string;
+  templateId: string;
+  businessName: string;
+  content: any;
+  seoData: any;
+  themeData: any;
+  businessData: any;
+  images?: Array<{
+    id: string;
+    slotName: string;
+    title: string;
+    altText: string;
+    imageUrl: string;
+    category: string;
+  }>;
+}
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [landingPageData, setLandingPageData] = useState<LandingPageData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const fetchLandingPageData = async () => {
+      try {
+        // Use the correct templateId and id from our database
+        const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID
+        const id = process.env.NEXT_PUBLIC_ID;
+
+        const response = await fetch(
+          `/api/template?templateId=${templateId}&id=${id}`
+        );
+        const data = await response.json();
+        console.log("Fetched data:", data);
+        setLandingPageData(data);
+      } catch (error) {
+        console.error("Error fetching landing page data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLandingPageData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading landing page...</p>
         </div>
+      </div>
+    );
+  }
+
+  if (!landingPageData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Failed to load landing page data</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <Layout 
+      title={landingPageData.seoData?.title} 
+      description={landingPageData.seoData?.description} 
+      theme={landingPageData.themeData}
+      seoData={landingPageData.seoData}
+    >
+      <Navbar 
+        businessName={landingPageData.businessName} 
+        logoImage={landingPageData.images?.find((img: any) => img.slotName === 'logo-image')?.imageUrl}
+        themeData={landingPageData.themeData} 
+      />
+      <main>
+
+      {landingPageData.content?.hero && (
+        <HeroSection
+          title={landingPageData.content.hero.title}
+          subtitle={landingPageData.content.hero.subtitle}
+          description={landingPageData.content.hero.description}
+          ctaButton={landingPageData.content.hero.ctaButton}
+          backgroundImage={landingPageData.images?.find((img: any) => img.slotName === 'hero-background' || img.category === 'hero')?.imageUrl}
+        />
+      )}
+
+      {landingPageData.content?.about && (
+        <AboutSection
+          title={landingPageData.content.about.title}
+          description={landingPageData.content.about.description}
+          features={landingPageData.content.about.features}
+          ctaButton={landingPageData.content.about.ctaButton}
+          image={landingPageData.images?.find((img: any) => img.slotName === 'about' || img.category === 'about')?.imageUrl}
+          theme={landingPageData.themeData}
+        />
+      )}
+
+      {landingPageData.content?.services && (
+        <ServicesSection
+          title={landingPageData.content.services.title}
+          description={landingPageData.content.services.description}
+          services={landingPageData.content.services.services}
+          theme={landingPageData.themeData}
+        />
+      )}
+
+      {landingPageData.content?.testimonials && (
+        <TestimonialsSection
+          title={landingPageData.content.testimonials.title}
+          description={landingPageData.content.testimonials.description}
+          testimonials={landingPageData.content.testimonials.testimonials}
+          theme={landingPageData.themeData}
+        />
+      )}
+
+      {landingPageData.content?.gallery && (
+        <GallerySection
+          title={landingPageData.content.gallery.title}
+          description={landingPageData.content.gallery.description}
+          images={landingPageData.images?.filter((img: any) => img.category === 'gallery' || img.slotName === 'gallery')}
+        />
+      )}
+
+      {landingPageData.content?.businessOverview && (
+        <BusinessOverviewSection
+          content={landingPageData.content.businessOverview.content}
+          contact={landingPageData.content?.contact}
+          businessData={landingPageData.businessData}
+          theme={landingPageData.themeData}
+        />
+      )}
+
+      {landingPageData.content?.faq && (
+        <FAQSection
+          title={landingPageData.content.faq.title}
+          description={landingPageData.content.faq.description}
+          questions={landingPageData.content.faq.questions}
+        />
+      )}
+
+      {landingPageData.content?.footer && (
+        <FooterSection
+          links={landingPageData.content.footer.links}
+          copyright={landingPageData.content.footer.copyright}
+          socialLinks={landingPageData.businessData?.socialLinks}
+          themeData={landingPageData.themeData}
+        />
+      )}
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </Layout>
   );
 }
