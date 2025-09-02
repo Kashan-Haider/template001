@@ -79,8 +79,8 @@ export default function FAQSection({
           <p className="text-gray-600 mb-4">
             Still have questions? We're here to help!
           </p>
-          <a href="#contact" className="btn-primary inline-block px-8 py-3 rounded-lg font-semibold transition-all duration-200">
-            Contact Our Team
+          <a href="tel:+1-800-555-0123" className="btn-primary inline-block px-8 py-3 rounded-lg font-semibold transition-all duration-200">
+            Call Our Team
           </a>
         </div>
       </div>

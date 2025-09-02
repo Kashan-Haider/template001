@@ -11,7 +11,9 @@ import GallerySection from '@/sections/GallerySection';
 import BusinessOverviewSection from '@/sections/BusinessOverviewSection';
 import FAQSection from '@/sections/FAQSection';
 import ContactSection from '@/sections/ContactSection';
+import ServiceAreasSection from '@/sections/ServiceAreasSection';
 import FooterSection from '@/sections/FooterSection';
+import { Image } from "@/types/template";
 
 interface LandingPageData {
   id: string;
@@ -21,14 +23,7 @@ interface LandingPageData {
   seoData: any;
   themeData: any;
   businessData: any;
-  images?: Array<{
-    id: string;
-    slotName: string;
-    title: string;
-    altText: string;
-    imageUrl: string;
-    category: string;
-  }>;
+  images?: Image[]
 }
 
 export default function Home() {
@@ -45,7 +40,7 @@ export default function Home() {
         const response = await fetch(
           `/api/template?templateId=${templateId}&id=${id}`
         );
-        const data = await response.json();
+        const data: LandingPageData = await response.json();
         console.log("Fetched data:", data);
         setLandingPageData(data);
       } catch (error) {
@@ -60,10 +55,20 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading landing page...</p>
+          <div className="relative">
+            <div className="animate-spin rounded-full h-32 w-32 border-4 border-gray-200 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-32 w-32 border-4 border-blue-600 border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+          </div>
+          <p className="text-gray-600 text-lg font-medium animate-pulse">
+            Loading landing page<span className="loading-dots"></span>
+          </p>
+          <div className="mt-4 flex justify-center space-x-1">
+            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
+            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+          </div>
         </div>
       </div>
     );
@@ -92,12 +97,13 @@ export default function Home() {
       theme={landingPageData.themeData}
       seoData={landingPageData.seoData}
     >
-      <Navbar 
-        businessName={landingPageData.businessName} 
-        logoImage={landingPageData.images?.find((img: any) => img.slotName === 'logo-image')?.imageUrl}
-        themeData={landingPageData.themeData} 
-      />
-      <main>
+      <div className="animate-fade-in-up">
+        <Navbar 
+          businessName={landingPageData.businessName} 
+          logoImage={landingPageData.images?.find((img: any) => img.slotName === 'logo-image')?.imageUrl}
+          themeData={landingPageData.themeData} 
+        />
+        <main>
 
       {landingPageData.content?.hero && (
         <HeroSection
@@ -126,6 +132,8 @@ export default function Home() {
           description={landingPageData.content.services.description}
           services={landingPageData.content.services.services}
           theme={landingPageData.themeData}
+          images={landingPageData.images?.filter((img: any) => img.slotName.includes('services')) || []}
+
         />
       )}
 
@@ -163,15 +171,34 @@ export default function Home() {
         />
       )}
 
-      {landingPageData.content?.footer && (
-        <FooterSection
-          links={landingPageData.content.footer.links}
-          copyright={landingPageData.content.footer.copyright}
-          socialLinks={landingPageData.businessData?.socialLinks}
+      {landingPageData.businessData?.serviceAreas && (
+        <ServiceAreasSection
+          serviceAreas={landingPageData.businessData.serviceAreas}
           themeData={landingPageData.themeData}
         />
       )}
-      </main>
+
+      <FooterSection
+        businessName={landingPageData.businessName}
+        businessDescription={landingPageData.content?.about?.description || "Professional services you can trust. We're here to help with all your business needs."}
+        logoImage={landingPageData.images?.find((img: any) => img.slotName === 'logo-image')?.imageUrl}
+        businessData={{
+          email: landingPageData.businessData?.email || '',
+          phone: landingPageData.businessData?.phone || '',
+          address: landingPageData.businessData?.address || {
+            street: '',
+            city: '',
+            state: '',
+            zipCode: ''
+          },
+          socialLinks: landingPageData.businessData?.socialLinks || [],
+          serviceAreas: landingPageData.businessData?.serviceAreas || []
+        }}
+        themeData={landingPageData.themeData}
+        copyright={landingPageData.content?.footer?.copyright}
+      />
+        </main>
+      </div>
     </Layout>
   );
 }

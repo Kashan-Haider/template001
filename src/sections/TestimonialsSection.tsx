@@ -17,7 +17,7 @@ interface Testimonial {
 
 export default function TestimonialsSection({ title, description, testimonials, theme }: TestimonialsSectionProps) {
   return (
-    <section className="py-20 relative overflow-hidden" style={{
+    <section id="testimonials" className="py-20 relative overflow-hidden" style={{
       background: theme ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})` : 'linear-gradient(135deg, #000, #666)'
     }}>
       {/* Background decoration */}

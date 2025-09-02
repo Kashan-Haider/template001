@@ -67,24 +67,12 @@ export interface SocialLink {
 
 export interface Image {
   id?: string;
-  imageId: string;
   title: string;
   altText: string;
+  slotName: string;
   imageUrl: string;
   category?: string;
-  description?: string;
-  imagePoolId?: string;
   createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface ImagesPool {
-  id?: string;
-  name: string;
-  description?: string;
-  images?: Image[];
-  createdAt?: string;
-  updatedAt?: string;
 }
 
 export interface HeroSection {
@@ -249,14 +237,14 @@ export interface LandingPageData {
   githubUrl?: string;
   createdAt?: string;
   updatedAt?: string;
-  
+
   // Core sections
   seoSettings?: SEOSettings;
   theme?: Theme;
   businessContact?: BusinessContact;
   socialPlatforms?: SocialPlatform[];
-  imagesPool?: ImagesPool;
-  
+  imagesPool?: Image[];
+
   // Page sections
   heroSection?: HeroSection;
   aboutSection?: AboutSection;

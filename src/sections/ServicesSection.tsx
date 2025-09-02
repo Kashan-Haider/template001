@@ -1,3 +1,12 @@
+"use client";
+
+import {
+  useScrollAnimation,
+  useStaggeredAnimation,
+} from "@/hooks/useScrollAnimation";
+import { Image as ImageType } from "@/types/template";
+import Image from "next/image";
+
 interface Service {
   name: string;
   description: string;
@@ -13,92 +22,124 @@ interface ServicesSectionProps {
     primaryColor: string;
     secondaryColor: string;
   };
+  images: ImageType[] ;
 }
 
-export default function ServicesSection({ title, description, services, theme }: ServicesSectionProps) {
+export default function ServicesSection({
+  title,
+  description,
+  services,
+  theme,
+  images,
+}: ServicesSectionProps) {
+  const { ref: titleRef, isVisible: titleVisible } =
+    useScrollAnimation<HTMLHeadingElement>({ threshold: 0.2 });
+  const { ref: descRef, isVisible: descVisible } =
+    useScrollAnimation<HTMLParagraphElement>({ threshold: 0.2 });
+  const { ref: gridRef, visibleItems } = useStaggeredAnimation(
+    services.length,
+    150
+  );
+
   return (
-    <section id="services" className="py-20 bg-white relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-80 h-80 opacity-5 rounded-full blur-3xl" style={{
-        background: theme ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})` : '#000'
-      }}></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 opacity-8 rounded-full blur-3xl" style={{
-        background: theme ? `linear-gradient(135deg, ${theme.secondaryColor}, ${theme.primaryColor})` : '#666'
-      }}></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <section id="services" className="py-20 bg-white relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="section-title text-gray-900 mb-6">
+          <h2
+            ref={titleRef}
+            className={`text-3xl font-bold text-gray-900 mb-6 transition-all duration-1000 ${
+              titleVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             {title}
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p
+            ref={descRef}
+            className={`text-lg text-gray-600 max-w-3xl mx-auto transition-all duration-1000 delay-300 ${
+              descVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             {description}
           </p>
         </div>
 
-        {/* Bento-style grid layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {/* Simple Responsive Grid */}
+        <div
+          ref={gridRef}
+          className="flex flex-wrap gap-6 mb-12 justify-center items-center rounded-xl "
+        >
           {services.map((service, index) => (
-            <div 
-              key={index} 
-              className={`card-bento transition-all duration-300 hover:scale-[1.02] ${
-                index === 0 ? 'lg:col-span-2 lg:row-span-1' : 
-                index === 1 ? 'lg:row-span-2' : 
-                index === 2 ? 'lg:col-span-1' : 
-                'lg:col-span-1'
-              }`}
+            <div
+              key={index}
+              className={`group relative md:h-[600px] w-full overflow-hidden md:w-[380px] justify-center flex flex-col gap-3 border rounded-2xl shadow-sm transition-all duration-700 ease-out group:
+            `}
+              style={{
+                background: theme
+                  ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})`
+                  : "#f9fafb",
+              }}
             >
-              <div className="flex items-start space-x-4 mb-6">
-                <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg" style={{
-                  background: theme ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})` : '#000'
-                }}>
-                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {service.name}
-                  </h3>
-                  <p className="font-semibold text-sm mb-2" style={{
-                    color: theme?.primaryColor || '#000'
-                  }}>
-                    {service.price}
-                  </p>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
+              <Image
+                src={
+                  images.find(img => img.slotName === `services-image-${index}`)?.imageUrl ||
+                  "https://images.pexels.com/photos/6195895/pexels-photo-6195895.jpeg"
+                }
+                alt={
+                  images.find(img => img.slotName === `services-image-${index}`)?.altText ||
+                  "Service section image"
+                }
+                width={500}
+                height={500}
+                className="rounded-t-xl group-hover:scale-105 transition-all duration-300"
+              />
+              <div className="px-4 py-8 md:px-6 md:py-12">
+                {/* Decorative Glow Effect */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 transition duration-500 bg-black"></div>
+
+                <h3 className="text-xl md:text-3xl font-bold text-gray-50 mb-2 relative z-10">
+                  {service.name}
+                </h3>
+                <p className="font-semibold text-lg mb-2 text-gray-50 relative z-10">
+                  {service.price}
+                </p>
+                <p className="text-gray-50 text-sm leading-relaxed mb-4 relative z-10">
+                  {service.description}
+                </p>
+
+                {service.features?.length > 0 && (
+                  <ul className="space-y-2 text-sm text-gray-50 relative z-10">
+                    {service.features
+                      .slice(0, 3)
+                      .map((feature, featureIndex) => (
+                        <li key={featureIndex} className="flex items-center">
+                          <span className="w-2 h-2 rounded-full mr-3 bg-white"></span>
+                          {feature}
+                        </li>
+                      ))}
+                  </ul>
+                )}
               </div>
-              
-              {service.features && service.features.length > 0 && (
-                <div className="mb-6">
-                  <div className="grid grid-cols-1 gap-2">
-                    {service.features.slice(0, 3).map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-center text-sm text-gray-600 bg-white/50 rounded-lg px-3 py-2">
-                        <div className="w-2 h-2 rounded-full mr-3 flex-shrink-0" style={{
-                          background: theme?.primaryColor || '#000'
-                        }}></div>
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
             </div>
           ))}
         </div>
 
+        {/* CTA */}
         <div className="text-center">
           <p className="text-gray-600 mb-6">
             Ready to transform your business? Let's discuss your specific needs.
           </p>
-          <a 
-            href="#contact" 
-            className="inline-block px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1"
+          <a
+            href="tel:+1-800-555-0123"
+            className="inline-block px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 shadow-lg hover:-translate-y-1"
             style={{
-              background: theme ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})` : '#000'
+              background: theme
+                ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})`
+                : "#000",
             }}
           >
             Get Custom Quote
