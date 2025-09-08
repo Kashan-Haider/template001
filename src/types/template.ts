@@ -1,263 +1,207 @@
-// TypeScript interfaces matching the landing-page-builder_dashboard schema
-export interface BusinessHour {
-  day: string;
-  hours: string;
-  isClosed: boolean;
-}
+// TypeScript interfaces matching the actual database schema
 
-export interface BusinessContact {
-  id?: string;
-  businessName: string;
-  phone: string;
-  emergencyPhone: string;
-  email: string;
-  emergencyEmail: string;
-  street: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  latitude: number;
-  longitude: number;
-  businessHours?: BusinessHour[];
-}
-
-export interface SEOSettings {
-  id?: string;
-  title: string;
-  description: string;
-  keywords: string[];
-}
-
-export interface Theme {
-  id?: string;
-  primaryColor: string;
-  secondaryColor: string;
-}
-
+// Basic types for CTA buttons and common elements
 export interface CtaButton {
-  id?: string;
   label: string;
   href: string;
 }
 
-export interface ServiceArea {
-  id?: string;
-  city: string;
-  region: string;
-  description: string;
-  ctaButton?: CtaButton;
-}
-
-export interface SocialPlatform {
-  id?: string;
-  platform: string;
-  url: string;
-  socialLinkId?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface SocialLink {
-  id?: string;
-  name: string;
-  socialPlatforms?: SocialPlatform[];
-  createdAt?: string;
-  updatedAt?: string;
-}
-
+// Image interface matching database structure
 export interface Image {
-  id?: string;
+  id: string;
+  landingPageId: string;
   title: string;
   altText: string;
-  slotName: string;
   imageUrl: string;
-  category?: string;
-  createdAt?: string;
+  slotName: string;
+  category: string;
+  createdAt: string;
 }
 
-export interface HeroSection {
-  id?: string;
+// Hero section content structure
+export interface HeroContent {
   title: string;
   subtitle: string;
   description: string;
-  ctaButtons?: CtaButton[];
+  ctaButton?: CtaButton;
 }
 
-export interface AboutSection {
-  id?: string;
+// About section content structure
+export interface AboutContent {
   title: string;
   description: string;
   features: string[];
   ctaButton?: CtaButton;
 }
 
+// Service structure
 export interface Service {
-  id?: string;
+  name: string;
   title: string;
   description: string;
+  price: string;
   features: string[];
   ctaButton?: CtaButton;
 }
 
-export interface ServicesSection {
-  id?: string;
+// Services section content structure
+export interface ServicesContent {
   title: string;
   description: string;
-  services?: Service[];
-  ctaButton?: CtaButton;
+  services: Service[];
 }
 
-export interface GallerySection {
-  id?: string;
-  title: string;
-  description: string;
-  images?: Image[];
-}
-
+// Testimonial structure
 export interface Testimonial {
-  id?: string;
   name: string;
+  text: string;
+  rating: number;
   role: string;
   company: string;
-  industry: string;
-  text: string;
 }
 
-export interface GalleryItem {
-  id?: string;
+// Testimonials section content structure
+export interface TestimonialsContent {
   title: string;
   description: string;
-  category: string;
-  ctaButton?: CtaButton;
+  testimonials: Testimonial[];
 }
 
-export interface TestimonialsSection {
-  id?: string;
+// Gallery section content structure
+export interface GalleryContent {
   title: string;
   description: string;
-  testimonials?: Testimonial[];
-  galleryItems?: GalleryItem[];
 }
 
+// FAQ item structure
 export interface FAQItem {
-  id?: string;
   question: string;
   answer: string;
-  category: string;
 }
 
-export interface FAQSection {
-  id?: string;
+// FAQ section content structure
+export interface FAQContent {
   title: string;
   description: string;
-  faqItems?: FAQItem[];
+  questions: FAQItem[];
 }
 
-export interface ServiceAreaSection {
-  id?: string;
-  title: string;
+// Business overview content structure
+export interface BusinessOverviewContent {
+  content: Array<{
+    heading: string;
+    description: string;
+    ctaButton: CtaButton;
+  }>;
+}
+
+// Company details section structure
+export interface CompanyDetailsContent {
+  heading: string;
   description: string;
-  serviceAreas?: ServiceArea[];
-  ctaButton?: CtaButton;
+  sections: Array<{
+    heading: string;
+    description: string;
+  }>;
 }
 
-export interface BusinessDetailSubSection {
-  id?: string;
-  title: string;
-  description: string;
-  ctaTitle: string;
-}
-
-export interface BusinessContactForm {
-  id?: string;
-  title: string;
-}
-
-export interface MapSettings {
-  id?: string;
-  latitude: number;
-  longitude: number;
-  locationName: string;
-}
-
-export interface BusinessDetailsSection {
-  id?: string;
-  title: string;
-  subSections?: BusinessDetailSubSection[];
-  contactForm?: BusinessContactForm;
-  mapSettings?: MapSettings;
-}
-
-export interface CompanyOverviewSubSection {
-  id?: string;
-  title: string;
-  description: string;
-}
-
-export interface CompanyOverviewSection {
-  id?: string;
-  title: string;
-  subSections?: CompanyOverviewSubSection[];
-  ctaButton?: CtaButton;
-}
-
-export interface Statistic {
-  id?: string;
-  value: string;
-  label: string;
-}
-
-export interface ServiceHighlightsSection {
-  id?: string;
-  title: string;
-  statistics?: Statistic[];
-}
-
-export interface PreFooterSection {
-  id?: string;
-  description: string;
-}
-
-export interface FooterServiceArea {
-  id?: string;
-  region: string;
-  services: string[];
-}
-
-export interface FooterSection {
-  id?: string;
+// Footer content structure
+export interface FooterContent {
   copyright: string;
-  serviceAreas?: FooterServiceArea[];
 }
 
+// Contact content structure
+export interface ContactContent {
+  title: string;
+  description: string;
+  showMap: boolean;
+}
+
+// Main content structure (JSONB field)
+export interface ContentData {
+  hero?: HeroContent;
+  about?: AboutContent;
+  services?: ServicesContent;
+  testimonials?: TestimonialsContent;
+  gallery?: GalleryContent;
+  faq?: FAQContent;
+  businessOverview?: BusinessOverviewContent;
+  companyDetails?: CompanyDetailsContent;
+  footer?: FooterContent;
+  contact?: ContactContent;
+}
+
+// SEO data structure (JSONB field)
+export interface SEOData {
+  title: string;
+  description: string;
+  keywords?: string[];
+}
+
+// Theme data structure (JSONB field)
+export interface ThemeData {
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor?: string;
+}
+
+// Address structure
+export interface Address {
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+}
+
+// Social link structure
+export interface SocialLink {
+  platform: string;
+  url: string;
+}
+
+// Service area structure
+export interface ServiceArea {
+  city: string;
+  region: string;
+  description: string;
+}
+
+// Business data structure (JSONB field)
+export interface BusinessData {
+  email: string;
+  phone: string;
+  emergencyPhone?: string;
+  emergencyEmail?: string;
+  address: Address;
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+  socialLinks: SocialLink[];
+  serviceAreas: ServiceArea[];
+  businessHours?: Array<{
+    day: string;
+    hours: string;
+    isClosed: boolean;
+  }>;
+}
+
+// Main landing page interface matching database structure
 export interface LandingPageData {
-  id?: string;
+  id: string;
   templateId: string;
   businessName: string;
   githubUrl?: string;
-  createdAt?: string;
-  updatedAt?: string;
-
-  // Core sections
-  seoSettings?: SEOSettings;
-  theme?: Theme;
-  businessContact?: BusinessContact;
-  socialPlatforms?: SocialPlatform[];
-  imagesPool?: Image[];
-
-  // Page sections
-  heroSection?: HeroSection;
-  aboutSection?: AboutSection;
-  servicesSection?: ServicesSection;
-  gallerySection?: GallerySection;
-  testimonialsSection?: TestimonialsSection;
-  faqSection?: FAQSection;
-  serviceAreaSection?: ServiceAreaSection;
-  businessDetailsSection?: BusinessDetailsSection;
-  companyOverviewSection?: CompanyOverviewSection;
-  serviceHighlightsSection?: ServiceHighlightsSection;
-  preFooterSection?: PreFooterSection;
-  footerSection?: FooterSection;
+  status: string;
+  content: ContentData;
+  seoData: SEOData;
+  themeData: ThemeData;
+  businessData: BusinessData;
+  companyDetails: CompanyDetailsContent;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt?: string;
+  images?: Image[];
 }
 
 // Legacy interface for backward compatibility

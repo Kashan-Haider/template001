@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
 
 interface NavbarProps {
   businessName?: string;
@@ -34,14 +35,17 @@ export default function Navbar({
             <Link href="/" className="flex-shrink-0">
               {logoImage ? (
                 <div className="flex items-center gap-5">
-                  <img
+                  <Image
                     src={logoImage}
                     alt={`${businessName} Logo`}
+                    width={200}
+                    height={40}
                     className="h-10 w-auto max-w-[200px] object-contain"
-                    />
-                    <h1 className="text-white font-bold md:block hidden text-2xl">
+                    priority
+                  />
+                  <h1 className="text-white font-bold md:block hidden text-2xl">
                     {businessName}
-                    </h1>
+                  </h1>
                 </div>
               ) : (
                 <span className="md:text-2xl font-bold text-white">
@@ -90,7 +94,7 @@ export default function Navbar({
                 background: "rgba(255, 255, 255, 0.1)",
               }}
             >
-              Get Started
+              Call Us Now
             </Link>
           </div>
 

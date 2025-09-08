@@ -1,3 +1,5 @@
+"use client";
+
 interface ServiceArea {
   city: string;
   region: string;
@@ -23,7 +25,7 @@ export default function ServiceAreasSection({
   }
 
   return (
-    <section className="py-20 relative overflow-hidden bg-gray-100">
+    <section className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden bg-gray-100">
       {/* Background decoration */}
       <div
         className="absolute top-0 right-0 w-96 h-96 opacity-10 rounded-full blur-3xl"
@@ -44,9 +46,9 @@ export default function ServiceAreasSection({
 
       <div className="px-4 sm:px-6 md:px-10 lg:px-20 relative">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
           <h2
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold mb-4 sm:mb-6"
             style={{
               background: themeData
                 ? `linear-gradient(135deg, ${themeData.primaryColor}, ${themeData.secondaryColor})`
@@ -58,7 +60,7 @@ export default function ServiceAreasSection({
           >
             Service Areas
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             We proudly serve communities across the region, bringing
             professional services directly to your neighborhood.
           </p>
@@ -123,7 +125,7 @@ export default function ServiceAreasSection({
         {/* Call to Action */}
         <div className="text-center mt-16">
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4 text-gray-900">
+            <h3 className="text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold mb-4 text-gray-900">
               Don't See Your Area?
             </h3>
             <p className="text-gray-600 mb-6">

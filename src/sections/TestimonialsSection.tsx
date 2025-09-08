@@ -17,7 +17,7 @@ interface Testimonial {
 
 export default function TestimonialsSection({ title, description, testimonials, theme }: TestimonialsSectionProps) {
   return (
-    <section id="testimonials" className="py-20 relative overflow-hidden" style={{
+    <section id="testimonials" className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden" style={{
       background: theme ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})` : 'linear-gradient(135deg, #000, #666)'
     }}>
       {/* Background decoration */}
@@ -25,11 +25,11 @@ export default function TestimonialsSection({ title, description, testimonials, 
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-white opacity-3 rounded-full blur-3xl"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center mb-16">
-          <h2 className="section-title text-white mb-6">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-4 sm:mb-6">
             {title}
           </h2>
-          <p className="text-lg text-white/80 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-3xl mx-auto">
             {description}
           </p>
         </div>

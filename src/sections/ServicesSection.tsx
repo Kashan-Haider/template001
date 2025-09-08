@@ -42,13 +42,13 @@ export default function ServicesSection({
   );
 
   return (
-    <section id="services" className="py-20 bg-white relative">
+    <section id="services" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
           <h2
             ref={titleRef}
-            className={`text-3xl font-bold text-gray-900 mb-6 transition-all duration-1000 ${
+            className={`text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6 transition-all duration-1000 ${
               titleVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
@@ -58,7 +58,7 @@ export default function ServicesSection({
           </h2>
           <p
             ref={descRef}
-            className={`text-lg text-gray-600 max-w-3xl mx-auto transition-all duration-1000 delay-300 ${
+            className={`text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto transition-all duration-1000 delay-300 ${
               descVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
@@ -101,7 +101,7 @@ export default function ServicesSection({
                 {/* Decorative Glow Effect */}
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 transition duration-500 bg-black"></div>
 
-                <h3 className="text-xl md:text-3xl font-bold text-gray-50 mb-2 relative z-10">
+                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold text-gray-50 mb-2 relative z-10">
                   {service.name}
                 </h3>
                 <p className="font-semibold text-lg mb-2 text-gray-50 relative z-10">

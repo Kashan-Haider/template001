@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   useScrollAnimation,
   useStaggeredAnimation,
@@ -41,7 +42,7 @@ export default function AboutSection({
   return (
     <section
       id="about"
-      className="py-20 relative overflow-hidden h-screen"
+      className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden h-screen"
       style={{
         background: theme
           ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})`
@@ -69,11 +70,9 @@ export default function AboutSection({
       ></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
             <h2
               ref={titleRef}
-              className={`section-title text-gray-50 mb-6 transition-all duration-1000 ${
+              className={`text-center mb-5 md:mb-10 text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-gray-50 mb-4 sm:mb-6 transition-all duration-1000 ${
                 titleVisible
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 -translate-x-8"
@@ -81,10 +80,12 @@ export default function AboutSection({
             >
               {title}
             </h2>
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
 
             <p
               ref={descRef}
-              className={`text-lg text-gray-50 mb-8 leading-relaxed transition-all duration-1000 delay-300 ${
+              className={`text-base sm:text-lg md:text-xl text-gray-50 mb-6 sm:mb-8 leading-relaxed transition-all duration-1000 delay-300 ${
                 descVisible
                   ? "opacity-100 translate-x-0"
                   : "opacity-0 -translate-x-8"
@@ -154,9 +155,11 @@ export default function AboutSection({
             <div className="relative w-full h-full">
               {image ? (
                 <div className="aspect-square rounded-3xl w-full h-full overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-105">
-                  <img
+                  <Image
                     src={image}
                     alt="About us"
+                    width={600}
+                    height={600}
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>

@@ -1,10 +1,8 @@
 "use client";
 
-import {
-  useScrollAnimation,
-  useStaggeredAnimation,
-} from "@/hooks/useScrollAnimation";
 import Link from "next/link";
+import Image from "next/image";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 interface SocialLink {
   platform: string;
@@ -91,7 +89,7 @@ export default function FooterSection({
     <footer
       ref={footerRef}
       id="contact"
-      className="py-16 relative overflow-hidden"
+      className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden"
       style={{
         background: themeData
           ? `linear-gradient(135deg, ${themeData.primaryColor}dd, ${themeData.secondaryColor}dd, #000000)`
@@ -116,20 +114,22 @@ export default function FooterSection({
         }}
       />
 
-      <div className="px-5 md:px-10 lg:px-20 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Logo + Business Info */}
-        <div className="flex flex-col lg:flex-row md:items-center justify-around gap-8 mb-12">
+        <div className="flex flex-col lg:flex-row md:items-start justify-around gap-8 mb-12">
           <div className="text-start flex flex-col">
             {logoImage && (
               <div className="mb-6">
-                <img
+                <Image
                   src={logoImage}
                   alt={`${businessName} logo`}
+                  width={200}
+                  height={64}
                   className="h-16 w-auto mx-auto lg:mx-0 hover:scale-105 transition-transform duration-300"
                 />
               </div>
             )}
-            <h3 className="text-2xl font-bold text-white mb-4 hover:scale-105 transition-transform duration-300">
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold text-white mb-4 hover:scale-105 transition-transform duration-300">
               {businessName}
             </h3>
             <h1>
@@ -176,32 +176,31 @@ export default function FooterSection({
           </div>
 
           <div className="flex flex-col md:flex-row gap-5">
-            <div>
-            <h3
-                    className={`text-2xl font-bold text-white md:text-center mb-8 transition-all duration-1000 ${
-                      footerVisible
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-8"
-                    }`}
-                  >
-                    Quick Links
-                  </h3>
+            <div className="">
+              <h3
+                className={`text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold text-white md:text-center mb-8 transition-all duration-1000 ${
+                  footerVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+              >
+                Quick Links
+              </h3>
 
-                  <div className="flex flex-col gap-2 md:items-center">
-                  <Link href={'#home'} >Home</Link>
-                  <Link href={'#about'} >About</Link>
-                  <Link href={'#services'} >Services</Link>
-                  <Link href={'#testimoinials'} >Testimonials</Link>
-                  <Link href={'#contact'} >Contact</Link>
-                  </div>
-
+              <div className="flex flex-col gap-2 md:items-center">
+                <Link href={"#home"}>Home</Link>
+                <Link href={"#about"}>About</Link>
+                <Link href={"#services"}>Services</Link>
+                <Link href={"#testimoinials"}>Testimonials</Link>
+                <Link href={"#contact"}>Contact</Link>
+              </div>
             </div>
             {/* Service Areas */}
             {businessData?.serviceAreas &&
               businessData.serviceAreas.length > 0 && (
                 <div className="mb-12">
                   <h3
-                    className={`text-2xl font-bold text-white md:text-center mb-8 transition-all duration-1000 ${
+                    className={`text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold text-white md:text-center mb-8 transition-all duration-1000 ${
                       footerVisible
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-8"
@@ -222,7 +221,7 @@ export default function FooterSection({
 
             <div className="flex flex-col gap-1 md:text-center">
               <h3
-                className={`text-2xl font-bold text-white text-center mb-8 transition-all duration-1000 ${
+                className={`text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold text-white text-center mb-8 transition-all duration-1000 ${
                   footerVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"

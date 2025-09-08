@@ -1,6 +1,7 @@
 "use client";
 
 import { Image } from "@/types/template";
+import NextImage from "next/image";
 import { useState } from "react";
 
 interface GalleryImage {
@@ -36,6 +37,8 @@ export default function GallerySection({
             imageUrl:
               "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800",
             category: "gallery",
+            landingPageId: "default",
+            createdAt: new Date().toISOString(),
           },
           {
             id: "2",
@@ -45,6 +48,8 @@ export default function GallerySection({
             imageUrl:
               "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800",
             category: "gallery",
+            landingPageId: "default",
+            createdAt: new Date().toISOString(),
           },
           {
             id: "3",
@@ -54,6 +59,8 @@ export default function GallerySection({
             imageUrl:
               "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800",
             category: "gallery",
+            landingPageId: "default",
+            createdAt: new Date().toISOString(),
           },
           {
             id: "4",
@@ -63,6 +70,8 @@ export default function GallerySection({
             imageUrl:
               "https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=800",
             category: "gallery",
+            landingPageId: "default",
+            createdAt: new Date().toISOString(),
           },
           {
             id: "5",
@@ -72,6 +81,8 @@ export default function GallerySection({
             imageUrl:
               "https://images.unsplash.com/photo-1519337265831-281ec6cc8514?w=800",
             category: "gallery",
+            landingPageId: "default",
+            createdAt: new Date().toISOString(),
           },
         ];
 
@@ -82,13 +93,13 @@ export default function GallerySection({
   return (
     <section
       id="gallery"
-      className="py-20 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200"
+      className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-primary mb-4">{title}</h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-primary mb-4">{title}</h2>
+          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
             {description}
           </p>
         </div>
@@ -97,9 +108,11 @@ export default function GallerySection({
         <div className="flex flex-col lg:flex-row items-start gap-6">
           {/* Large Selected Image */}
           <div className="flex-1 rounded-2xl overflow-hidden shadow-xl">
-            <img
+            <NextImage
               src={selectedImage.imageUrl}
               alt={selectedImage.altText}
+              width={800}
+              height={500}
               className="w-full h-[500px] object-cover"
             />
           </div>
@@ -116,9 +129,11 @@ export default function GallerySection({
                     : "border-transparent hover:scale-105"
                 }`}
               >
-                <img
+                <NextImage
                   src={image.imageUrl}
                   alt={image.altText}
+                  width={256}
+                  height={112}
                   className="w-full h-28 object-cover"
                 />
                 {/* Overlay on hover */}
