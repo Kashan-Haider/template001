@@ -10,10 +10,11 @@ import TestimonialsSection from "@/sections/TestimonialsSection";
 import GallerySection from "@/sections/GallerySection";
 import BusinessOverviewSection from "@/sections/BusinessOverviewSection";
 import FAQSection from "@/sections/FAQSection";
-import ContactSection from "@/sections/ContactSection";
 import ServiceAreasSection from "@/sections/ServiceAreasSection";
+import ServiceHighlightsSection from "@/sections/ServiceHighlightsSection";
 import FooterSection from "@/sections/FooterSection";
-import { LandingPageData, Image } from "@/types/template";
+import CTASection from "@/sections/CTASection";
+import { LandingPageData } from "@/types/template";
 import CompanyDetails from "@/sections/CompanyDetails";
 
 export default function Home() {
@@ -129,6 +130,13 @@ export default function Home() {
             />
           )}
 
+          {landingPageData.content.serviceHighlights && (
+            <ServiceHighlightsSection
+              data={landingPageData.content.serviceHighlights}
+              theme={landingPageData.themeData}
+            />
+          )}
+
           {landingPageData.content.about && (
             <AboutSection
               title={landingPageData.content.about.title}
@@ -145,9 +153,9 @@ export default function Home() {
             />
           )}
 
-          {landingPageData.companyDetails && (
+          {landingPageData.content.companyDetails && (
             <CompanyDetails 
-              data={landingPageData.companyDetails} 
+              data={landingPageData.content.companyDetails} 
               images={landingPageData.images}
               theme={landingPageData.themeData}
 
@@ -174,6 +182,14 @@ export default function Home() {
               description={landingPageData.content.testimonials.description}
               testimonials={landingPageData.content.testimonials.testimonials}
               theme={landingPageData.themeData}
+            />
+          )}
+
+          {landingPageData.content.ctaSection && (
+            <CTASection
+              data={landingPageData.content.ctaSection}
+              theme={landingPageData.themeData}
+              images={landingPageData.images}
             />
           )}
 

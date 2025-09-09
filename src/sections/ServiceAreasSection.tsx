@@ -126,10 +126,10 @@ export default function ServiceAreasSection({
         <div className="text-center mt-16">
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 max-w-2xl mx-auto">
             <h3 className="text-xl sm:text-2xl md:text-2xl lg:text-2xl font-bold mb-4 text-gray-900">
-              Don't See Your Area?
+              Don&apos;t See Your Area?
             </h3>
             <p className="text-gray-600 mb-6">
-              We're always expanding our service areas. Contact us to discuss
+              We&apos;re always expanding our service areas. Contact us to discuss
               availability in your location.
             </p>
             <a

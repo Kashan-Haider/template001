@@ -52,7 +52,7 @@ export default function FooterSection({
 }: FooterSectionProps) {
   const { ref: footerRef, isVisible: footerVisible } =
     useScrollAnimation<HTMLElement>({ threshold: 0.1 });
-  const { ref: serviceAreasRef, visibleItems } = useStaggeredAnimation(
+  const { ref: serviceAreasRef } = useStaggeredAnimation(
     businessData?.serviceAreas?.length || 0,
     100
   );

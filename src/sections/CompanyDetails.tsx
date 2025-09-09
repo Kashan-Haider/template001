@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from "next/image";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { CompanyDetailsContent, Image as ImageType } from '@/types/template';
 
 interface CompanyDetailsProps {

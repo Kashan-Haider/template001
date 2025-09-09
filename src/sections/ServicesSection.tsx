@@ -36,7 +36,7 @@ export default function ServicesSection({
     useScrollAnimation<HTMLHeadingElement>({ threshold: 0.2 });
   const { ref: descRef, isVisible: descVisible } =
     useScrollAnimation<HTMLParagraphElement>({ threshold: 0.2 });
-  const { ref: gridRef, visibleItems } = useStaggeredAnimation(
+  const { ref: gridRef } = useStaggeredAnimation(
     services.length,
     150
   );
@@ -86,7 +86,7 @@ export default function ServicesSection({
             >
               <Image
                 src={
-                  images.find(img => img.slotName === `services-image-${index}`)?.imageUrl ||
+                  images.find(img => img.slotName === `services-image-${index + 1}`)?.imageUrl ||
                   "https://images.pexels.com/photos/6195895/pexels-photo-6195895.jpeg"
                 }
                 alt={
@@ -131,7 +131,7 @@ export default function ServicesSection({
         {/* CTA */}
         <div className="text-center">
           <p className="text-gray-600 mb-6">
-            Ready to transform your business? Let's discuss your specific needs.
+            Ready to transform your business? Let&apos;s discuss your specific needs.
           </p>
           <a
             href="tel:+1-800-555-0123"

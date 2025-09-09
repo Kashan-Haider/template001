@@ -117,6 +117,24 @@ export interface ContactContent {
   showMap: boolean;
 }
 
+// Service highlights content structure
+export interface ServiceHighlightsContent {
+  title: string;
+  description: string;
+  services: Array<{
+    name: string;
+    description: string;
+  }>;
+}
+
+// CTA section content structure
+export interface CTAContent {
+  heading: string;
+  subHeading: string;
+  description: string;
+  ctaButton: CtaButton;
+}
+
 // Main content structure (JSONB field)
 export interface ContentData {
   hero?: HeroContent;
@@ -129,6 +147,8 @@ export interface ContentData {
   companyDetails?: CompanyDetailsContent;
   footer?: FooterContent;
   contact?: ContactContent;
+  serviceHighlights?: ServiceHighlightsContent;
+  ctaSection?: CTAContent;
 }
 
 // SEO data structure (JSONB field)
@@ -198,6 +218,7 @@ export interface LandingPageData {
   themeData: ThemeData;
   businessData: BusinessData;
   companyDetails: CompanyDetailsContent;
+  serviceHighlights?: ServiceHighlightsContent;
   createdAt: string;
   updatedAt: string;
   publishedAt?: string;
@@ -206,5 +227,5 @@ export interface LandingPageData {
 
 // Legacy interface for backward compatibility
 export interface TemplateData extends LandingPageData {
-  sections?: any[];
+  sections?: Array<Record<string, unknown>>;
 }

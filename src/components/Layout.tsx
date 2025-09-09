@@ -1,13 +1,13 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
-import { SEOSettings, Theme } from '@/types/template';
+import { SEOData, ThemeData } from '@/types/template';
 
 interface LayoutProps {
   children: ReactNode;
   title?: string;
   description?: string;
-  theme?: Theme;
-  seoData?: SEOSettings;
+  theme?: ThemeData;
+  seoData?: SEOData;
 }
 
 export default function Layout({ 

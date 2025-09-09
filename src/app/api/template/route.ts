@@ -33,12 +33,12 @@ export async function GET(request: NextRequest) {
 
     console.log(`Successfully found landing page: ${landingPageData.businessName}`);
     return NextResponse.json(landingPageData);
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Error fetching landing page data:", err);
     return NextResponse.json(
       { 
         error: "Internal Server Error",
-        message: err.message || "Unknown database error"
+        message: err instanceof Error ? err.message : "Unknown database error"
       },
       { status: 500 }
     );

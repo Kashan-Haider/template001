@@ -1,8 +1,22 @@
+import { BusinessData } from '@/types/template';
+
+interface Schedule {
+  day: string;
+  periods?: Array<{
+    open: string;
+    close?: string;
+  }>;
+}
+
+interface BusinessHours {
+  schedule?: Schedule[];
+}
+
 interface ContactSectionProps {
   title: string;
   description: string;
   showMap?: boolean;
-  businessData: any;
+  businessData: BusinessData & { hours?: BusinessHours };
 }
 
 export default function ContactSection({ title, description, showMap = true, businessData }: ContactSectionProps) {
@@ -74,15 +88,15 @@ export default function ContactSection({ title, description, showMap = true, bus
               <div>
                 <h3 className="font-semibold text-gray-900">Hours</h3>
                 <div className="text-gray-600 space-y-1">
-                  {businessData.hours?.schedule?.map((schedule: any, index: number) => (
+                  {businessData.hours?.schedule?.map((schedule: Schedule, index: number) => (
                     <div key={index} className="flex justify-between">
                       <span className="font-medium">{schedule.day}:</span>
                       <span>
-                        {schedule.periods?.length > 0 ? (
-                          schedule.periods.map((period: any, i: number) => (
+                        {schedule.periods && schedule.periods.length > 0 ? (
+                          schedule.periods.map((period: { open: string; close?: string }, i: number) => (
                             <span key={i}>
                               {period.open} - {period.close || 'Late'}
-                              {i < schedule.periods.length - 1 && ', '}
+                              {i < (schedule.periods?.length || 0) - 1 && ', '}
                             </span>
                           ))
                         ) : 'Closed'}

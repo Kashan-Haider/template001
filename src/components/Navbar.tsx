@@ -142,37 +142,43 @@ export default function Navbar({
               }}
             >
               <Link
-                href="#home"
+onClick={() => setIsOpen(false)}
+href="#home"
                 className="block px-3 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 font-medium"
               >
                 Home
               </Link>
               <Link
-                href="#about"
+onClick={() => setIsOpen(false)}
+href="#about"
                 className="block px-3 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 font-medium"
               >
                 About
               </Link>
               <Link
-                href="#services"
+onClick={() => setIsOpen(false)}
+href="#services"
                 className="block px-3 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 font-medium"
               >
                 Services
               </Link>
               <Link
-                href="#testimonials"
+onClick={() => setIsOpen(false)}
+href="#testimonials"
                 className="block px-3 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 font-medium"
               >
                 Testimonials
               </Link>
               <Link
-                href="#contact"
+onClick={() => setIsOpen(false)}
+href="#contact"
                 className="block px-3 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 font-medium"
               >
                 Contact
               </Link>
               <Link
-                href="#contact"
+onClick={() => setIsOpen(false)}
+href="#contact"
                 className="block mx-3 my-2 text-white px-4 py-2 rounded-lg text-center transition-all duration-300 border border-white/20 hover:border-white/40 backdrop-blur-sm hover:bg-white/20"
                 style={{
                   background: "rgba(255, 255, 255, 0.1)",

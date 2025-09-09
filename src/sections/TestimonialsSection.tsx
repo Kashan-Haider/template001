@@ -60,7 +60,7 @@ export default function TestimonialsSection({ title, description, testimonials, 
               </div>
               
               <blockquote className="text-gray-700 italic leading-relaxed">
-                "{testimonial.text}"
+                &ldquo;{testimonial.text}&rdquo;
               </blockquote>
               
               <div className="flex mt-4">
