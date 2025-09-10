@@ -28,10 +28,10 @@ export default function Home() {
         // Use the correct templateId and id from our database
         const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
         const id = process.env.NEXT_PUBLIC_ID;
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
         const response = await fetch(
-          `${apiUrl}/api/template?templateId=${templateId}&id=${id}`
+          `${apiUrl && apiUrl}/api/template?templateId=${templateId}&id=${id}`
         );
 
         if (!response.ok) {

@@ -77,7 +77,7 @@ export async function debugDatabaseContent() {
     const allPages = await query('SELECT id, "templateId", "businessName" FROM "LandingPage"');
     console.log(`📊 Found ${allPages.length} landing pages in database:`);
     
-    allPages.forEach((page: any) => {
+    allPages.forEach((page: { id: string; templateId: string; businessName: string }) => {
       console.log(`  - ID: ${page.id}, Template: ${page.templateId}, Business: ${page.businessName}`);
     });
     
