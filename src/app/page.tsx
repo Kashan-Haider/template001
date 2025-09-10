@@ -28,15 +28,16 @@ export default function Home() {
         // Use the correct templateId and id from our database
         const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
         const id = process.env.NEXT_PUBLIC_ID;
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
         const response = await fetch(
-          `/api/template?templateId=${templateId}&id=${id}`
+          `${apiUrl}/api/template?templateId=${templateId}&id=${id}`
         );
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data: LandingPageData = await response.json();
         console.log("Fetched data:", data);
         setLandingPageData(data);
@@ -107,9 +108,8 @@ export default function Home() {
         <Navbar
           businessName={landingPageData.businessName}
           logoImage={
-            landingPageData.images?.find(
-              (img) => img.slotName === "logo-image"
-            )?.imageUrl
+            landingPageData.images?.find((img) => img.slotName === "logo-image")
+              ?.imageUrl
           }
           themeData={landingPageData.themeData}
         />
@@ -119,12 +119,16 @@ export default function Home() {
               title={landingPageData.content.hero.title}
               subtitle={landingPageData.content.hero.subtitle}
               description={landingPageData.content.hero.description}
-              ctaButton={landingPageData.content.hero.ctaButton || { label: "Learn More", href: "#" }}
+              ctaButton={
+                landingPageData.content.hero.ctaButton || {
+                  label: "Learn More",
+                  href: "#",
+                }
+              }
               backgroundImage={
                 landingPageData.images?.find(
                   (img) =>
-                    img.slotName === "hero-image-1" ||
-                    img.category === "hero"
+                    img.slotName === "hero-image-1" || img.category === "hero"
                 )?.imageUrl
               }
             />
@@ -142,11 +146,15 @@ export default function Home() {
               title={landingPageData.content.about.title}
               description={landingPageData.content.about.description}
               features={landingPageData.content.about.features}
-              ctaButton={landingPageData.content.about.ctaButton || { label: "Contact Us", href: "#contact" }}
+              ctaButton={
+                landingPageData.content.about.ctaButton || {
+                  label: "Contact Us",
+                  href: "#contact",
+                }
+              }
               image={
                 landingPageData.images?.find(
-                  (img) =>
-                    img.slotName === "about" || img.category === "about"
+                  (img) => img.slotName === "about" || img.category === "about"
                 )?.imageUrl
               }
               theme={landingPageData.themeData}
@@ -154,11 +162,10 @@ export default function Home() {
           )}
 
           {landingPageData.content.companyDetails && (
-            <CompanyDetails 
-              data={landingPageData.content.companyDetails} 
+            <CompanyDetails
+              data={landingPageData.content.companyDetails}
               images={landingPageData.images}
               theme={landingPageData.themeData}
-
             />
           )}
 
@@ -207,7 +214,13 @@ export default function Home() {
           {landingPageData.content.businessOverview && (
             <BusinessOverviewSection
               content={landingPageData.content.businessOverview.content}
-              contact={landingPageData.content.contact || { title: "Contact Us", description: "Get in touch with us today", showMap: true }}
+              contact={
+                landingPageData.content.contact || {
+                  title: "Contact Us",
+                  description: "Get in touch with us today",
+                  showMap: true,
+                }
+              }
               businessData={landingPageData.businessData}
               theme={landingPageData.themeData}
             />
@@ -221,12 +234,13 @@ export default function Home() {
             />
           )}
 
-          {landingPageData.businessData.serviceAreas && landingPageData.businessData.serviceAreas.length > 0 && (
-            <ServiceAreasSection
-              serviceAreas={landingPageData.businessData.serviceAreas}
-              themeData={landingPageData.themeData}
-            />
-          )}
+          {landingPageData.businessData.serviceAreas &&
+            landingPageData.businessData.serviceAreas.length > 0 && (
+              <ServiceAreasSection
+                serviceAreas={landingPageData.businessData.serviceAreas}
+                themeData={landingPageData.themeData}
+              />
+            )}
 
           <FooterSection
             businessName={landingPageData.businessName}
