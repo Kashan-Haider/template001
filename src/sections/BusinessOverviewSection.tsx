@@ -6,6 +6,18 @@ import {
   useStaggeredAnimation,
 } from "@/hooks/useScrollAnimation";
 
+interface Schedule {
+  day: string;
+  periods?: Array<{
+    open: string;
+    close?: string;
+  }>;
+}
+
+interface BusinessHours {
+  schedule?: Schedule[];
+}
+
 interface BusinessOverviewSectionProps {
   content: Array<{
     heading: string;
@@ -33,6 +45,7 @@ interface BusinessOverviewSectionProps {
       latitude: number;
       longitude: number;
     };
+    hours?: BusinessHours;
   };
   theme?: {
     primaryColor: string;
@@ -320,6 +333,45 @@ export default function BusinessOverviewSection({
                       </div>
                     </div>
                   </div>
+
+                  {/* Business Hours */}
+                  {businessData.hours?.schedule && (
+                    <div className="flex items-start space-x-3">
+                      <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center mt-1">
+                        <svg
+                          className="w-3 h-3 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div className="text-white/90">
+                        <div className="font-medium mb-2">Business Hours</div>
+                        <div className="space-y-1 text-sm">
+                          {businessData.hours.schedule.map((schedule: Schedule, index: number) => (
+                            <div key={index} className="flex justify-between min-w-[200px]">
+                              <span className="font-medium">{schedule.day}:</span>
+                              <span className="ml-4">
+                                {schedule.periods && schedule.periods.length > 0 ? (
+                                  schedule.periods.map((period: { open: string; close?: string }, i: number) => (
+                                    <span key={i}>
+                                      {period.open} - {period.close || 'Late'}
+                                      {i < (schedule.periods?.length || 0) - 1 && ', '}
+                                    </span>
+                                  ))
+                                ) : 'Closed'}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

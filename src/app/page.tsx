@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
+import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/sections/HeroSection";
 import AboutSection from "@/sections/AboutSection";
@@ -51,33 +52,7 @@ export default function Home() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="text-center">
-          <div className="relative">
-            <div className="animate-spin rounded-full h-32 w-32 border-4 border-gray-200 mx-auto mb-4"></div>
-            <div className="animate-spin rounded-full h-32 w-32 border-4 border-blue-600 border-t-transparent absolute top-0 left-1/2 transform -translate-x-1/2"></div>
-          </div>
-          <p className="text-gray-600 text-lg font-medium animate-pulse">
-            Loading landing page<span className="loading-dots"></span>
-          </p>
-          <div className="mt-4 flex justify-center space-x-1">
-            <div
-              className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"
-              style={{ animationDelay: "0s" }}
-            ></div>
-            <div
-              className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"
-              style={{ animationDelay: "0.1s" }}
-            ></div>
-            <div
-              className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"
-              style={{ animationDelay: "0.2s" }}
-            ></div>
-          </div>
-        </div>
-      </div>
-    );
+    return <LoadingScreen/>;
   }
 
   if (!landingPageData) {
@@ -232,6 +207,7 @@ export default function Home() {
               questions={landingPageData.content.faq.questions}
             />
           )}
+
 
           {landingPageData.businessData.serviceAreas &&
             landingPageData.businessData.serviceAreas.length > 0 && (

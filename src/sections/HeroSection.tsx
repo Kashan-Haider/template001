@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 interface HeroSectionProps {
@@ -21,12 +22,18 @@ export default function HeroSection({ title, subtitle, description, ctaButton, b
     <section className="relative py-20 lg:py-32 overflow-hidden h-screen">
       {/* Background image or gradient */}
       {backgroundImage ? (
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
-        >
+        <>
+          <Image
+            src={backgroundImage}
+            alt="Hero background"
+            fill
+            className="object-cover"
+            priority
+            quality={85}
+            sizes="100vw"
+          />
           <div className="absolute inset-0 hero-overlay"></div>
-        </div>
+        </>
       ) : (
         <div className="absolute inset-0 bg-gradient-hero"></div>
       )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import NextImage from 'next/image';
 import { CTAContent, ThemeData, Image } from '@/types/template';
 
 interface CTASectionProps {
@@ -17,9 +18,13 @@ const CTASection: React.FC<CTASectionProps> = ({ data, theme, images }) => {
   return (
     <section className="py-20 relative overflow-hidden min-h-[600px] flex items-center">
       {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${ctaImage})` }}
+      <NextImage
+        src={ctaImage}
+        alt="CTA background"
+        fill
+        className="object-cover"
+        quality={85}
+        sizes="100vw"
       />
       
       {/* Dark Overlay */}
