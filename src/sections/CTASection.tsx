@@ -50,7 +50,7 @@ const CTASection: React.FC<CTASectionProps> = ({ data, theme, images }) => {
           </p>
 
           {/* CTA Button */}
-          <div className="flex justify-center">
+          {data.ctaButton && (
             <a
               href={data.ctaButton.href}
               className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group"
@@ -80,7 +80,7 @@ const CTASection: React.FC<CTASectionProps> = ({ data, theme, images }) => {
                 />
               </svg>
             </a>
-          </div>
+          )}
         </div>
       </div>
 

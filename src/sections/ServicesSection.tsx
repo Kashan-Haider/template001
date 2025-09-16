@@ -127,24 +127,6 @@ export default function ServicesSection({
             </div>
           ))}
         </div>
-
-        {/* CTA */}
-        <div className="text-center">
-          <p className="text-gray-600 mb-6">
-            Ready to transform your business? Let&apos;s discuss your specific needs.
-          </p>
-          <a
-            href="tel:+1-800-555-0123"
-            className="inline-block px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 shadow-lg hover:-translate-y-1"
-            style={{
-              background: theme
-                ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})`
-                : "#000",
-            }}
-          >
-            Get Custom Quote
-          </a>
-        </div>
       </div>
     </section>
   );

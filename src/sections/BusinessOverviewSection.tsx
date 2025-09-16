@@ -121,11 +121,11 @@ export default function BusinessOverviewSection({
 
                   {item.ctaButton && (
                     <a
-                      href="tel:+1-800-555-0123"
+                      href={item.ctaButton.href}
                       className="inline-block px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1 hover:scale-105 bg-black/70 shadow-black/30 shadow-md group"
                     >
                       <span className="group-hover:animate-pulse">
-                        Call Now
+                        {item.ctaButton.label}
                       </span>
                     </a>
                   )}

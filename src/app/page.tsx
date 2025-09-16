@@ -86,6 +86,7 @@ export default function Home() {
               ?.imageUrl
           }
           themeData={landingPageData.themeData}
+          phoneNumber={landingPageData.businessData?.phone}
         />
         <main>
           {landingPageData.content.hero && (

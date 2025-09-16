@@ -135,10 +135,10 @@ export default function AboutSection({
 
             {ctaButton && (
               <a
-                href="tel:+1-800-555-0123"
+                href={ctaButton.href}
                 className="inline-block px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-1 bg-black/70 shadow-black/30 shadow-md"
               >
-                Call Now
+                {ctaButton.label}
               </a>
             )}
           </div>

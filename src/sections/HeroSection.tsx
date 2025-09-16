@@ -83,14 +83,14 @@ export default function HeroSection({ title, subtitle, description, ctaButton, b
           
           {ctaButton && 
             <a
-              href="tel:+1-800-555-0123"
+            href={ctaButton.href}
               className={`px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-500 hero-cta-button shadow-lg hover:shadow-xl hover:scale-105 hover:-translate-y-1 group ${
                 descriptionVisible 
                   ? 'opacity-100 translate-y-0 delay-700' 
                   : 'opacity-0 translate-y-8'
               }`}
             >
-              <span className="group-hover:animate-pulse">Call Now</span>
+              <span className="group-hover:animate-pulse">{ctaButton.label}</span>
             </a>
           }
         </div>

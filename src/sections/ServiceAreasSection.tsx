@@ -133,7 +133,7 @@ export default function ServiceAreasSection({
               availability in your location.
             </p>
             <a
-              href="tel:+1-800-555-0123"
+              href="#contact"
               className="inline-flex items-center px-8 py-4 rounded-full font-semibold text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
               style={{
                 background: themeData

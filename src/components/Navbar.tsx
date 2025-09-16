@@ -11,12 +11,14 @@ interface NavbarProps {
     primaryColor: string;
     secondaryColor: string;
   };
+  phoneNumber?: string;
 }
 
 export default function Navbar({
   businessName = "Business",
   logoImage,
   themeData,
+  phoneNumber,
 }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -88,7 +90,7 @@ export default function Navbar({
               Contact
             </Link>
             <Link
-              href="tel:+1-800-555-0123"
+              href={phoneNumber ? `tel:${phoneNumber}` : "#"}
               className="text-white px-4 py-2 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:transform hover:-translate-y-0.5 border border-white/20 hover:border-white/40 backdrop-blur-sm"
               style={{
                 background: "rgba(255, 255, 255, 0.1)",
