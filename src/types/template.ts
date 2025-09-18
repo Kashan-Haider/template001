@@ -156,6 +156,9 @@ export interface SEOData {
   title: string;
   description: string;
   keywords?: string[];
+  isIndex: boolean;
+  canonicalUrl: string;
+  focusedKeywords?: string[];
 }
 
 // Theme data structure (JSONB field)

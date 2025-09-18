@@ -56,13 +56,8 @@ const CTASection: React.FC<CTASectionProps> = ({ data, theme, images }) => {
               className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group"
               style={{ 
                 backgroundColor: primaryColor,
-                boxShadow: `0 10px 25px ${primaryColor}30`
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = secondaryColor;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = primaryColor;
+                boxShadow: `0 10px 25px ${primaryColor}30`,
+                transition: 'all 0.3s ease'
               }}
             >
               {data.ctaButton.label}
@@ -83,32 +78,6 @@ const CTASection: React.FC<CTASectionProps> = ({ data, theme, images }) => {
           )}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
     </section>
   );
 };

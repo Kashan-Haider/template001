@@ -42,7 +42,7 @@ export default function AboutSection({
   return (
     <section
       id="about"
-      className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden h-screen"
+      className="py-12 sm:py-16 md:py-20 lg:py-24 relative overflow-hidden min-h-screen xl:h-screen"
       style={{
         background: theme
           ? `linear-gradient(135deg, ${theme.primaryColor}, ${theme.secondaryColor})`

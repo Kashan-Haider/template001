@@ -1,8 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
-import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/sections/HeroSection";
 import AboutSection from "@/sections/AboutSection";
@@ -17,59 +13,104 @@ import FooterSection from "@/sections/FooterSection";
 import CTASection from "@/sections/CTASection";
 import { LandingPageData } from "@/types/template";
 import CompanyDetails from "@/sections/CompanyDetails";
+import { fetchLandingPageForSSG } from "@/lib/database";
+import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
-export default function Home() {
-  const [landingPageData, setLandingPageData] =
-    useState<LandingPageData | null>(null);
-  const [loading, setLoading] = useState(true);
+// Enable ISR with 60-second revalidation
+export const revalidate = 60;
 
-  useEffect(() => {
-    const fetchLandingPageData = async () => {
-      try {
-        // Use the correct templateId and id from our database
-        const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
-        const id = process.env.NEXT_PUBLIC_ID;
-
-        const response = await fetch(
-          `/api/template?templateId=${templateId}&id=${id}`
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data: LandingPageData = await response.json();
-        console.log("Fetched data:", data);
-        setLandingPageData(data);
-      } catch (error) {
-        console.error("Error fetching landing page data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLandingPageData();
-  }, []);
-
-  if (loading) {
-    return <LoadingScreen/>;
+// Generate static params for all published landing pages
+export async function generateStaticParams() {
+  // For now, we'll use the environment variables to generate the single page
+  // In the future, this could be expanded to generate multiple pages
+  const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
+  const id = process.env.NEXT_PUBLIC_ID;
+  
+  if (!templateId || !id) {
+    console.warn('Missing NEXT_PUBLIC_TEMPLATE_ID or NEXT_PUBLIC_ID environment variables');
+    return [];
   }
+
+  return [{ templateId, id }];
+}
+
+// Server-side data fetching for SSG
+async function getLandingPageData(): Promise<LandingPageData> {
+  const templateId = process.env.NEXT_PUBLIC_TEMPLATE_ID;
+  const id = process.env.NEXT_PUBLIC_ID;
+
+  if (!templateId || !id) {
+    console.error('Missing required environment variables: NEXT_PUBLIC_TEMPLATE_ID, NEXT_PUBLIC_ID');
+    notFound();
+  }
+
+  const landingPageData = await fetchLandingPageForSSG(templateId, id);
 
   if (!landingPageData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">Failed to load landing page data</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
+    console.error(`Landing page not found: templateId=${templateId}, id=${id}`);
+    notFound();
   }
+
+  return landingPageData;
+}
+
+// Generate metadata for Next.js App Router
+export async function generateMetadata(): Promise<Metadata> {
+  const landingPageData = await getLandingPageData();
+  const { seoData, businessName, images } = landingPageData;
+  
+  // Get images for Open Graph
+  const logoImage = images?.find((img) => img.slotName === 'logo-image')?.imageUrl;
+  const heroImage = images?.find((img) => img.slotName === 'hero-image-1' || img.category === 'hero')?.imageUrl;
+  const ogImage = logoImage || heroImage;
+  
+  return {
+    title: seoData.title,
+    description: seoData.description,
+    keywords: seoData.keywords?.join(', '),
+    authors: [{ name: businessName }],
+    creator: businessName,
+    publisher: businessName,
+    robots: seoData.isIndex ? 'index,follow' : 'noindex,nofollow',
+    
+    // Open Graph
+    openGraph: {
+      title: seoData.title,
+      description: seoData.description,
+      url: seoData.canonicalUrl,
+      siteName: businessName,
+      images: ogImage ? [{
+        url: ogImage,
+        alt: `${businessName} - ${seoData.title}`,
+      }] : [],
+      locale: 'en_US',
+      type: 'website',
+    },
+    
+    // Twitter
+    twitter: {
+      card: 'summary_large_image',
+      title: seoData.title,
+      description: seoData.description,
+      images: ogImage ? [ogImage] : [],
+    },
+    
+    // Additional metadata
+    alternates: {
+      canonical: seoData.canonicalUrl,
+    },
+    
+    // Verification and other meta tags
+    other: {
+      'theme-color': landingPageData.themeData?.primaryColor,
+      'focused-keywords': seoData.focusedKeywords?.join(', ') || '',
+    },
+  };
+}
+
+export default async function Home() {
+  const landingPageData = await getLandingPageData();
 
   return (
     <Layout
@@ -77,6 +118,7 @@ export default function Home() {
       description={landingPageData.seoData.description}
       theme={landingPageData.themeData}
       seoData={landingPageData.seoData}
+      landingPageData={landingPageData}
     >
       <div className="animate-fade-in-up">
         <Navbar
@@ -208,7 +250,6 @@ export default function Home() {
               questions={landingPageData.content.faq.questions}
             />
           )}
-
 
           {landingPageData.businessData.serviceAreas &&
             landingPageData.businessData.serviceAreas.length > 0 && (

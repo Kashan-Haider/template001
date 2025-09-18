@@ -51,6 +51,65 @@ export async function fetchLandingPageWithImages(templateId: string, id: string)
   return { ...landingPage, images };
 }
 
+// Optimized function for SSG build-time data fetching
+export async function fetchLandingPageForSSG(templateId: string, id: string): Promise<LandingPageData | null> {
+  try {
+    // Single optimized query to fetch landing page with images
+    const rows = await query(`
+      SELECT 
+        lp.*,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'id', img.id,
+              'landingPageId', img."landingPageId",
+              'title', img.title,
+              'altText', img."altText",
+              'imageUrl', img."imageUrl",
+              'slotName', img."slotName",
+              'category', img.category,
+              'createdAt', img."createdAt"
+            ) ORDER BY img."createdAt" ASC
+          ) FILTER (WHERE img.id IS NOT NULL),
+          '[]'::json
+        ) as images
+      FROM "LandingPage" lp
+      LEFT JOIN "Image" img ON lp.id = img."landingPageId"
+      WHERE lp."templateId" = $1 AND lp.id = $2
+      GROUP BY lp.id
+    `, [templateId, id]);
+    
+    if (rows.length === 0) return null;
+    
+    const result = rows[0] as LandingPageData & { images: Image[] };
+    
+    return result;
+  } catch (error) {
+    console.error('Error fetching landing page data for SSG:', error);
+    return null;
+  }
+}
+
+// Function to get all available landing pages for static generation
+export async function getAllLandingPageIds(): Promise<Array<{ templateId: string; id: string }>> {
+  try {
+    const rows = await query(`
+      SELECT "templateId", id 
+      FROM "LandingPage" 
+      WHERE status = 'published'
+      ORDER BY "updatedAt" DESC
+    `);
+    
+    return rows.map(row => ({
+      templateId: row.templateId,
+      id: row.id
+    }));
+  } catch (error) {
+    console.error('Error fetching landing page IDs:', error);
+    return [];
+  }
+}
+
 export async function debugDatabaseContent() {
   try {
     console.log('🔍 Checking database connection...');
